@@ -5,14 +5,13 @@
         <img src="/public/img/logo.png" alt="logo">
       </div>
       <div class="search">
-        <input v-model="query" @keyup.enter="onSearch" placeholder="Buscar" />
+        <input v-model="query" @keyup.enter="onSearch" placeholder="Buscar..." />
       </div>
+      <nav class="navline">
+        <router-link to="/" class="navlink">Filmes</router-link>
+        <router-link to="/series" class="navlink">Séries</router-link>
+      </nav>
     </header>
-
-    <nav class="navline">
-      <router-link to="/" class="navlink">Filmes</router-link>
-      <router-link to="/series" class="navlink">Séries</router-link>
-    </nav>
 
     <main class="container">
       <router-view />
@@ -46,27 +45,18 @@ export default {
 .topbar {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   background: #ffd7e6;
-  padding: 18px 28px;
+  padding: 1vw 6vw;
   border-bottom: 2px solid rgba(0, 0, 0, 0.03)
 }
 
-.brand {
-  font-weight: 700;
-  font-size: 22px
-}
-
-.brand .heart {
-  color: #ff5d9e;
-  margin: 0 6px
-}
-
 .search input {
-  width: 360px;
+  width: 18vw;
   padding: 10px 16px;
   border-radius: 20px;
   border: 1px solid rgba(0, 0, 0, 0.06);
-  
+  outline: none;
 }
 
 .profile {
@@ -74,24 +64,19 @@ export default {
   cursor: pointer
 }
 
-.navline {
-  max-width: 1100px;
-  margin: 8px auto;
-  padding: 0 24px;
-  display: flex;
-  gap: 12px
-}
-
 .navlink {
-  padding: 6px 12px;
-  border-radius: 14px;
-  border-bottom: 2px solid transparent;
+  padding: 5px 14px;
+  border-radius: 20px;
+  background: #fff;
+  cursor: pointer;
+  font-weight: 600;
   text-decoration: none;
-  color: #333
+  color: #292929;
+  margin: 0 5px;
 }
 
 .navlink.router-link-active {
-  border-bottom-color: #ff5d9e
+  border: 2px solid #ffb3d1;
 }
 
 @media(max-width:900px) {
