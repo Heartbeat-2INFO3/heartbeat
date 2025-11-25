@@ -45,35 +45,44 @@ export default {
       featured: null
     }
   },
+  watch: {
+    '$route.query.q': {
+      handler(n) {
+        if (n) this.search(n)
+        else this.load()
+      },
+      immediate: true
+    }
+  },
   methods: {
-    posterUrl(path){ return path ? this.IMG_BASE + path : '' },
-    getGenresText(ids){ return (ids || []).map(i => (this.allGenres.find(g=>g.id===i)||{}).name).filter(Boolean).slice(0,3).join(' • ') },
-    async fetchGenres(){
+    posterUrl(path) { return path ? this.IMG_BASE + path : '' },
+    getGenresText(ids) { return (ids || []).map(i => (this.allGenres.find(g => g.id === i) || {}).name).filter(Boolean).slice(0, 3).join(' • ') },
+    async fetchGenres() {
       const res = await fetch(`${this.BASE}/genre/tv/list?api_key=${this.API_KEY}&language=pt-BR`)
       const data = await res.json()
       this.allGenres = data.genres || []
     },
-    async discover(){
+    async discover() {
       const genreParam = this.selectedGenreIds.join(',')
       const res = await fetch(`${this.BASE}/discover/tv?api_key=${this.API_KEY}&language=pt-BR&sort_by=popularity.desc&with_genres=${genreParam}`)
       const data = await res.json()
       this.shows = data.results || []
-      if(this.shows.length) this.setFeatured(this.shows[0])
+      if (this.shows.length) this.setFeatured(this.shows[0])
     },
-    setFeatured(s){
+    setFeatured(s) {
       this.featured = s
       this.fetchDetails(s.id)
     },
-    async fetchDetails(id){
+    async fetchDetails(id) {
       const res = await fetch(`${this.BASE}/tv/${id}?api_key=${this.API_KEY}&language=pt-BR`)
       const data = await res.json()
       this.featured = Object.assign({}, this.featured, data)
     },
     async load() {
-      if(!this.allGenres.length) await this.fetchGenres()
+      if (!this.allGenres.length) await this.fetchGenres()
       await this.discover()
     },
-    async onToggleGenre(id){
+    async onToggleGenre(id) {
       if (id === 10749 && this.selectedGenreIds.includes(10749)) {
         return
       }
@@ -81,8 +90,18 @@ export default {
       if (idx > -1) this.selectedGenreIds.splice(idx, 1)
       else this.selectedGenreIds.push(id)
       await this.discover()
+    },
+    async search(q) {
+      const res = await fetch(`${this.BASE}/search/tv?api_key=${this.API_KEY}&language=pt-BR&query=${encodeURIComponent(q)}`)
+      const data = await res.json()
+
+      const results = (data.results || []).filter(s => (s.genre_ids || []).includes(10749))
+      this.shows = results
+
+      if (this.shows.length) this.setFeatured(this.shows[0])
     }
   },
-  mounted(){ this.load() }
+  mounted() { this.load() }
 }
+
 </script>
