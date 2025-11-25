@@ -6,6 +6,7 @@
       </div>
       <div class="search">
         <input v-model="query" @keyup.enter="onSearch" placeholder="Buscar..." />
+        <span v-if="query" class="clear-icon" @click="query = ''">×</span>
       </div>
       <nav class="navline">
         <router-link to="/" class="navlink">Filmes</router-link>
@@ -77,6 +78,14 @@ export default {
 
 .navlink.router-link-active {
   border: 2px solid #ffb3d1;
+}
+
+.clear-icon {
+  color: #dda3b8;
+  font-size: 1.5rem;
+  position: absolute;
+  left: 60.4%;
+  cursor: pointer;
 }
 
 @media(max-width:900px) {

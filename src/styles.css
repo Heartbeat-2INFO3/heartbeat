@@ -86,7 +86,7 @@ body {
   gap: 12px;
   flex-wrap: wrap;
   margin-bottom: 20px;
-  
+
 }
 
 .genre-btn {
@@ -120,7 +120,8 @@ body {
   padding: 8px;
   text-align: center;
   box-shadow: 0 6px 0 rgba(0, 0, 0, 0.02);
-  cursor: pointer
+  cursor: pointer;
+  overflow: hidden;
 }
 
 .card img {
@@ -128,7 +129,12 @@ body {
   height: 220px;
   object-fit: cover;
   border-radius: 8px;
-  margin-bottom: 8px
+  margin-bottom: 8px;
+  transition: all 0.5s ease;
+}
+
+.card img:hover {
+  transform: scale(1.05);
 }
 
 .card-title {
